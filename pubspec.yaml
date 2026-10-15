@@ -15,6 +15,8 @@ dependencies:
   retrofit: ^4.10.0
   json_annotation: ^4.12.0
   logger: ^2.8.0
+  dio: ^5.11.1
+  riverpod: ^3.4.3
 
 dev_dependencies:
   flutter_test:
@@ -27,8 +29,21 @@ dev_dependencies:
 
 flutter:
 
-
   uses-material-design: true
 
   assets:
     - assets/images/
+
+  fonts:
+    - family: Doto
+      fonts:
+        - asset: assets/fonts/Doto-Regular.ttf
+        - asset: assets/fonts/Doto-Light.ttf
+          weight: 300
+        - asset: assets/fonts/Doto-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/Doto-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/Doto-Bold.ttf
+          weight: 700
+

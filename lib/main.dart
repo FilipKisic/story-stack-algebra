@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:story_stack/presentation/screen/launch_screen.dart';
+import 'package:story_stack/presentation/launch/screen/launch_screen.dart';
+import 'package:story_stack/presentation/stories/list/screen/story_list_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -13,8 +14,8 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(colorScheme: .fromSeed(seedColor: Colors.deepPurple)),
-      home: LaunchScreen(),
+      theme: ThemeData(fontFamily: 'Doto'),
+      home: StoryListScreen(),
     );
   }
 }

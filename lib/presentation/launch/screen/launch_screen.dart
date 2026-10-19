@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:story_stack/presentation/style/colors.dart';
 
 class LaunchScreen extends StatelessWidget {
   const LaunchScreen({super.key});
@@ -6,7 +7,7 @@ class LaunchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1D1C29),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Center(
           child: Image.asset('assets/images/app_logo.png'),

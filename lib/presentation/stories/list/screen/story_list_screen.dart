@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:hugeicons/hugeicons.dart';
+import 'package:story_stack/presentation/style/colors.dart';
+import 'package:story_stack/presentation/style/text_styles.dart';
 
 class StoryListScreen extends StatelessWidget {
   const StoryListScreen({super.key});
@@ -6,7 +9,7 @@ class StoryListScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFF1D1C29),
+      backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
         child: Padding(
           padding: const EdgeInsets.all(20),
@@ -15,11 +18,13 @@ class StoryListScreen extends StatelessWidget {
             children: [
               Text(
                 'Story stack',
-                style: TextStyle(color: Colors.white, fontSize: 32),
+                style: AppTextStyles.titleTextStyle,
               ),
+              const SizedBox(height: 20),
               Expanded(
-                child: ListView.builder(
+                child: ListView.separated(
                   itemCount: 5,
+                  separatorBuilder: (context, index) => const SizedBox(height: 15),
                   itemBuilder: (context, index) => StoryCard(),
                 ),
               ),
@@ -38,8 +43,8 @@ class LoadingStateWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: CircularProgressIndicator(
-        color: Color(0xFF8DEBD2),
-        backgroundColor: Color(0xFFA093FF),
+        color: AppColors.primaryColor,
+        backgroundColor: AppColors.accentColor,
       ),
     );
   }
@@ -55,30 +60,36 @@ class StoryCard extends StatelessWidget {
       children: [
         Text(
           '@author',
-          style: TextStyle(color: Color(0xFF8DEBD2), fontSize: 16),
+          style: AppTextStyles.cardSubtitleTextStyle,
         ),
         Text(
           'Story title containing some text ;)',
-          style: TextStyle(color: Colors.white, fontSize: 22),
+          style: AppTextStyles.cardTitleTextStyle,
         ),
+        const SizedBox(height: 5),
         Row(
           children: [
-            Icon(Icons.calendar_month, color: Color(0xFFA093FF)),
+            HugeIcon(icon: HugeIcons.strokeRoundedCalendar02, color: AppColors.accentColor, size: 22),
+            const SizedBox(width: 5),
             Text(
-              '01.01.2026',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              '19 Oct 2026',
+              style: AppTextStyles.cardStatsTextStyle,
             ),
             const SizedBox(width: 20),
-            Icon(Icons.comment_rounded, color: Color(0xFFA093FF)),
+
+            HugeIcon(icon: HugeIcons.strokeRoundedComment01, color: AppColors.accentColor, size: 22),
+            const SizedBox(width: 5),
             Text(
               '69',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: AppTextStyles.cardStatsTextStyle,
             ),
             const SizedBox(width: 20),
-            Icon(Icons.thumb_up, color: Color(0xFFA093FF)),
+
+            HugeIcon(icon: HugeIcons.strokeRoundedThumbsUp, color: AppColors.accentColor, size: 22),
+            const SizedBox(width: 5),
             Text(
               '113',
-              style: TextStyle(color: Colors.white, fontSize: 16),
+              style: AppTextStyles.cardStatsTextStyle,
             ),
           ],
         ),

@@ -17,6 +17,7 @@ dependencies:
   logger: ^2.8.0
   dio: ^5.11.1
   riverpod: ^3.4.3
+  hugeicons: ^1.2.0
 
 dev_dependencies:
   flutter_test:
@@ -45,5 +46,14 @@ flutter:
         - asset: assets/fonts/Doto-SemiBold.ttf
           weight: 600
         - asset: assets/fonts/Doto-Bold.ttf
+          weight: 700
+    - family: ChakraPetch
+      fonts:
+        - asset: assets/fonts/ChakraPetch-Regular.ttf
+        - asset: assets/fonts/ChakraPetch-Medium.ttf
+          weight: 500
+        - asset: assets/fonts/ChakraPetch-SemiBold.ttf
+          weight: 600
+        - asset: assets/fonts/ChakraPetch-Bold.ttf
           weight: 700
 

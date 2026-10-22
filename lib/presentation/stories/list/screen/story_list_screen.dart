@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
-import 'package:story_stack/presentation/style/colors.dart';
-import 'package:story_stack/presentation/style/text_styles.dart';
+import 'package:story_stack/presentation/core/router.dart';
+import 'package:story_stack/presentation/core/style/colors.dart';
+import 'package:story_stack/presentation/core/style/text_styles.dart';
 
 class StoryListScreen extends StatelessWidget {
   const StoryListScreen({super.key});
@@ -23,9 +24,12 @@ class StoryListScreen extends StatelessWidget {
               const SizedBox(height: 20),
               Expanded(
                 child: ListView.separated(
-                  itemCount: 5,
+                  itemCount: 10,
                   separatorBuilder: (context, index) => const SizedBox(height: 15),
-                  itemBuilder: (context, index) => StoryCard(),
+                  itemBuilder: (context, index) => GestureDetector(
+                    onTap: () => Navigator.of(context).pushNamed(AppRouter.storyDetailsScreen),
+                    child: StoryCard(),
+                  ),
                 ),
               ),
             ],

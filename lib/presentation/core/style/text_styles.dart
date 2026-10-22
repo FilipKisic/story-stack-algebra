@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:story_stack/presentation/style/colors.dart';
+import 'package:story_stack/presentation/core/style/colors.dart';
 
 class AppTextStyles {
   static final titleTextStyle = TextStyle(color: AppColors.textColor, fontSize: 32);

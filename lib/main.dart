@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:story_stack/presentation/core/router.dart';
+import 'package:story_stack/presentation/core/style/colors.dart';
 import 'package:story_stack/presentation/home/screen/home_screen.dart';
-import 'package:story_stack/presentation/style/colors.dart';
 
 void main() {
   runApp(const MyApp());
@@ -18,7 +19,8 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Doto',
         canvasColor: AppColors.backgroundColor,
       ),
-      home: HomeScreen(),
+      initialRoute: AppRouter.launchScreen,
+      onGenerateRoute: AppRouter.generateRoute,
     );
   }
 }

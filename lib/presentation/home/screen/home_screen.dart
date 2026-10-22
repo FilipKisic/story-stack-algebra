@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:story_stack/presentation/asks/screen/ask_list_screen.dart';
+import 'package:story_stack/presentation/core/style/colors.dart';
 import 'package:story_stack/presentation/jobs/screen/job_list_screen.dart';
 import 'package:story_stack/presentation/shows/screen/show_list_screen.dart';
 import 'package:story_stack/presentation/stories/list/screen/story_list_screen.dart';
-import 'package:story_stack/presentation/style/colors.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});

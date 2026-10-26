@@ -1,7 +1,7 @@
 name: story_stack
 description: "A new Flutter project."
 
-publish_to: 'none' # Remove this line if you wish to publish to pub.dev
+publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
@@ -17,7 +17,9 @@ dependencies:
   logger: ^2.8.0
   dio: ^5.11.1
   riverpod: ^3.4.3
+  flutter_riverpod: ^3.4.3
   hugeicons: ^1.2.0
+  intl: ^0.20.3
 
 dev_dependencies:
   flutter_test:
@@ -29,7 +31,6 @@ dev_dependencies:
   json_serializable: ^6.14.1
 
 flutter:
-
   uses-material-design: true
 
   assets:
@@ -56,4 +57,3 @@ flutter:
           weight: 600
         - asset: assets/fonts/ChakraPetch-Bold.ttf
           weight: 700
-

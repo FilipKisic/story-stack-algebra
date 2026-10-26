@@ -14,4 +14,15 @@ class AppTextStyles {
     fontSize: 16,
     fontFamily: 'ChakraPetch',
   );
+  static final emptyStateTitleTextStyle = TextStyle(
+    color: AppColors.textColor,
+    fontSize: 20,
+    fontFamily: 'ChakraPetch',
+    fontWeight: FontWeight.bold,
+  );
+  static final emptyStateSubtitleTextStyle = TextStyle(
+    color: AppColors.secondaryColor,
+    fontSize: 14,
+    fontFamily: 'ChakraPetch',
+  );
 }

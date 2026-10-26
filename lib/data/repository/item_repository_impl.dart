@@ -30,21 +30,18 @@ class ItemRepositoryImpl implements ItemRepository {
         _topStoryIdList.addAll(allTopStories);
       }
 
-      final int startIndex = page * _pageSize;
-      final int lastIndex = (startIndex + _pageSize) - 1;
+      final List<int> nextPageIds = _getNextPageStoryIdList(page);
+      final List<Story> stories = await nextPageIds.map((storyId) => _itemHttpClient.getItem(storyId)).wait;
 
-      final List<int> pageContent = _topStoryIdList.sublist(startIndex, lastIndex);
-
-      final List<Story> result = [];
-
-      for (int storyId in pageContent) {
-        final story = await _itemHttpClient.getItem(storyId);
-        result.add(story);
-      }
-
-      return Result.ok(result);
-    } on Exception catch(e) {
+      return Result.ok(stories);
+    } on Exception catch (e) {
       return Result.error(e);
     }
+  }
+
+  List<int> _getNextPageStoryIdList(int page) {
+    final int startIndex = page * _pageSize;
+    final int lastIndex = (startIndex + _pageSize) - 1;
+    return _topStoryIdList.sublist(startIndex, lastIndex);
   }
 }

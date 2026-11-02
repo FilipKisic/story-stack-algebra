@@ -1,3 +1,5 @@
+import 'dart:math' as math;
+
 import 'package:story_stack/data/client/item_http_client.dart';
 import 'package:story_stack/domain/entity/result.dart';
 import 'package:story_stack/domain/entity/story.dart';
@@ -39,9 +41,16 @@ class ItemRepositoryImpl implements ItemRepository {
     }
   }
 
+  @override
+  bool hasMoreStories(int currentPage) {
+    final startIndex = currentPage * _pageSize; // 0, 10, 20, 30
+    final endIndex = math.min(startIndex + _pageSize, _topStoryIdList.length) - 1;
+    return _topStoryIdList.length - 1 > endIndex; //
+  }
+
   List<int> _getNextPageStoryIdList(int page) {
     final int startIndex = page * _pageSize;
-    final int lastIndex = (startIndex + _pageSize) - 1;
+    final lastIndex = math.min(startIndex + _pageSize, _topStoryIdList.length) - 1;
     return _topStoryIdList.sublist(startIndex, lastIndex);
   }
 }

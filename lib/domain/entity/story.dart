@@ -12,7 +12,7 @@ class Story {
   final int time;
   final String title;
   final String type;
-  final String url;
+  final String? url;
 
   Story(
     this.by,

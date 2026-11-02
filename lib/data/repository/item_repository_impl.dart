@@ -43,14 +43,14 @@ class ItemRepositoryImpl implements ItemRepository {
 
   @override
   bool hasMoreStories(int currentPage) {
-    final startIndex = currentPage * _pageSize; // 0, 10, 20, 30
-    final endIndex = math.min(startIndex + _pageSize, _topStoryIdList.length) - 1;
-    return _topStoryIdList.length - 1 > endIndex; //
+    final totalNumberOfStories = _topStoryIdList.length;
+    final fetchedStories = (currentPage + 1) * _pageSize;
+    return fetchedStories < totalNumberOfStories;
   }
 
   List<int> _getNextPageStoryIdList(int page) {
     final int startIndex = page * _pageSize;
-    final lastIndex = math.min(startIndex + _pageSize, _topStoryIdList.length) - 1;
+    final lastIndex = math.min(startIndex + _pageSize, _topStoryIdList.length);
     return _topStoryIdList.sublist(startIndex, lastIndex);
   }
 }

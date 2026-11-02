@@ -22,8 +22,10 @@ class StoryListScreen extends ConsumerWidget {
           child: switch (state) {
             LoadingState() => LoadingStateWidget(),
             EmptyState() => EmptyStateWidget(),
-            LoadedState(stories: final storyList) => LoadedStateWidget(storyList),
+            LoadedState(stories: final storyList) => LoadedStateWidget(storyList, StoryListStatus.success),
             ErrorState() => ErrorStateWidget(),
+            LoadingMoreState(stories: final storyList) => LoadedStateWidget(storyList, StoryListStatus.loading),
+            ErrorLoadingMoreState(stories: final storyList) => LoadedStateWidget(storyList, StoryListStatus.error),
           },
         ),
       ),
@@ -100,12 +102,36 @@ class ErrorStateWidget extends StatelessWidget {
   }
 }
 
-class LoadedStateWidget extends StatelessWidget {
+enum StoryListStatus { success, loading, error }
+
+class LoadedStateWidget extends ConsumerStatefulWidget {
   final List<Story> storyList;
-  const LoadedStateWidget(this.storyList, {super.key});
+  final StoryListStatus status;
+  const LoadedStateWidget(this.storyList, this.status, {super.key});
+
+  @override
+  ConsumerState<LoadedStateWidget> createState() => _LoadedStateWidgetState();
+}
+
+class _LoadedStateWidgetState extends ConsumerState<LoadedStateWidget> {
+  late final ScrollController _scrollController;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()..addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    final position = _scrollController.position;
+    if (position.pixels >= position.maxScrollExtent - 300) {
+      ref.read(storyListControllerProvider.notifier).getNextPage();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
+    final showFooter = widget.status != .success;
     return Column(
       children: [
         Text(
@@ -114,9 +140,24 @@ class LoadedStateWidget extends StatelessWidget {
         ),
         Expanded(
           child: ListView.separated(
-            itemCount: storyList.length,
-            itemBuilder: (context, index) => StoryCard(story: storyList[index]),
+            controller: _scrollController,
+            itemCount: widget.storyList.length + (showFooter ? 1 : 0),
             separatorBuilder: (context, index) => const SizedBox(height: 20),
+            itemBuilder: (context, index) {
+              if (widget.status == .loading && index == widget.storyList.length) {
+                // at footer of the list show loading indicator
+                CircularProgressIndicator(
+                  color: AppColors.primaryColor,
+                  backgroundColor: AppColors.accentColor,
+                );
+              }
+
+              if (widget.status == .error && index == widget.storyList.length) {
+                Text('There was an error...', style: TextStyle(color: Colors.white));
+              }
+
+              return StoryCard(story: widget.storyList[index]);
+            },
           ),
         ),
       ],
@@ -157,7 +198,7 @@ class StoryCard extends StatelessWidget {
             HugeIcon(icon: HugeIcons.strokeRoundedComment01, color: AppColors.accentColor, size: 22),
             const SizedBox(width: 5),
             Text(
-              story.kids.length.toString(),
+              story.kids?.length.toString() ?? "0",
               style: AppTextStyles.cardStatsTextStyle,
             ),
             const SizedBox(width: 20),

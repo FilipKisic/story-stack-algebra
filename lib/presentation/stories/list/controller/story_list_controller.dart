@@ -21,7 +21,8 @@ class StoryListController extends Notifier<StoryListState> {
     final result = await _itemRepository.getTopStories(0);
     switch (result) {
       case Ok<List<Story>>():
-        state = result.value.isEmpty ? EmptyState() : LoadedState(result.value, 0);
+        final hasMore = _itemRepository.hasMoreStories(0);
+        state = result.value.isEmpty ? EmptyState() : LoadedState(result.value, 1, hasMore);
       case Error<List<Story>>():
         state = ErrorState(result.error.toString());
     }
@@ -30,19 +31,23 @@ class StoryListController extends Notifier<StoryListState> {
   void getNextPage() async {
     if (state is! LoadedState) return;
 
-    var nextPage = (state as LoadedState).currentPage++;
+    var currentPage = (state as LoadedState).currentPage;
     final currentStories = (state as LoadedState).stories;
+    var hasMore = (state as LoadedState).hasMore;
 
-    if (!_itemRepository.hasMoreStories(nextPage)) return;
+    if (!hasMore) return;
 
     state = LoadingMoreState(currentStories);
 
-    final result = await _itemRepository.getTopStories(nextPage);
+    final result = await _itemRepository.getTopStories(currentPage);
 
     switch (result) {
       case Ok<List<Story>>():
         currentStories.addAll(result.value);
-        state = LoadedState(currentStories, nextPage);
+        hasMore = _itemRepository.hasMoreStories(currentPage);
+        currentPage++;
+
+        state = LoadedState(currentStories, currentPage, hasMore);
       case Error<List<Story>>():
         state = ErrorLoadingMoreState(currentStories, result.error.toString());
     }

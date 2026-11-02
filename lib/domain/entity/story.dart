@@ -5,9 +5,9 @@ part 'story.g.dart';
 @JsonSerializable()
 class Story {
   final String by;
-  final int descendants;
+  final int? descendants;
   final int id;
-  final List<int> kids;
+  final List<int>? kids;
   final int score;
   final int time;
   final String title;

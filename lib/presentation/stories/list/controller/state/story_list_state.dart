@@ -15,8 +15,9 @@ class EmptyState extends StoryListState {}
 class LoadedState extends StoryListState {
   final List<Story> stories;
   int currentPage = 0;
+  bool hasMore = false;
 
-  LoadedState(this.stories, this.currentPage);
+  LoadedState(this.stories, this.currentPage, this.hasMore);
 }
 
 class ErrorState extends StoryListState {

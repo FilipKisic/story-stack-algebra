@@ -107,6 +107,7 @@ enum StoryListStatus { success, loading, error }
 class LoadedStateWidget extends ConsumerStatefulWidget {
   final List<Story> storyList;
   final StoryListStatus status;
+
   const LoadedStateWidget(this.storyList, this.status, {super.key});
 
   @override
@@ -144,16 +145,27 @@ class _LoadedStateWidgetState extends ConsumerState<LoadedStateWidget> {
             itemCount: widget.storyList.length + (showFooter ? 1 : 0),
             separatorBuilder: (context, index) => const SizedBox(height: 20),
             itemBuilder: (context, index) {
-              if (widget.status == .loading && index == widget.storyList.length) {
-                // at footer of the list show loading indicator
-                CircularProgressIndicator(
-                  color: AppColors.primaryColor,
-                  backgroundColor: AppColors.accentColor,
-                );
-              }
-
-              if (widget.status == .error && index == widget.storyList.length) {
-                Text('There was an error...', style: TextStyle(color: Colors.white));
+              if (showFooter && index == widget.storyList.length) {
+                return switch (widget.status) {
+                  StoryListStatus.success => SizedBox.shrink(),
+                  StoryListStatus.loading => Center(
+                    child: CircularProgressIndicator(
+                      color: AppColors.primaryColor,
+                      backgroundColor: AppColors.accentColor,
+                    ),
+                  ),
+                  StoryListStatus.error => Row(
+                    mainAxisAlignment: .center,
+                    children: [
+                      HugeIcon(icon: HugeIcons.strokeRoundedWifiDisconnected02, color: Colors.red),
+                      const SizedBox(width: 10),
+                      Text(
+                        'There was an error...',
+                        style: AppTextStyles.errorLoadingMoreTextStyle,
+                      ),
+                    ],
+                  ),
+                };
               }
 
               return StoryCard(story: widget.storyList[index]);
@@ -167,6 +179,7 @@ class _LoadedStateWidgetState extends ConsumerState<LoadedStateWidget> {
 
 class StoryCard extends StatelessWidget {
   final Story story;
+
   const StoryCard({super.key, required this.story});
 
   @override

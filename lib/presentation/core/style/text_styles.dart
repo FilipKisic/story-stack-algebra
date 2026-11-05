@@ -25,4 +25,5 @@ class AppTextStyles {
     fontSize: 14,
     fontFamily: 'ChakraPetch',
   );
+  static final errorLoadingMoreTextStyle = TextStyle(color: Colors.white, fontSize: 18);
 }

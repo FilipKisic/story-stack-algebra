@@ -18,8 +18,8 @@ class ItemRepositoryImpl implements ItemRepository {
     try {
       final result = await _itemHttpClient.getItem(id);
       return Result.ok(result);
-    } on Exception catch (e) {
-      return Result.error(e);
+    } catch (_) {
+      return Result.error(Exception("There was an error while getting the details."));
     }
   }
 
@@ -36,8 +36,8 @@ class ItemRepositoryImpl implements ItemRepository {
       final List<Story> stories = await nextPageIds.map((storyId) => _itemHttpClient.getItem(storyId)).wait;
 
       return Result.ok(stories);
-    } on Exception catch (e) {
-      return Result.error(e);
+    } catch (e) {
+      return Result.error(Exception('There was a network error.'));
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
 import 'package:story_stack/di.dart';
 import 'package:story_stack/domain/entity/story.dart';
+import 'package:story_stack/presentation/core/router.dart';
 import 'package:story_stack/presentation/core/style/colors.dart';
 import 'package:story_stack/presentation/core/style/text_styles.dart';
 import 'package:story_stack/presentation/stories/list/controller/state/story_list_state.dart';
@@ -168,7 +169,13 @@ class _LoadedStateWidgetState extends ConsumerState<LoadedStateWidget> {
                 };
               }
 
-              return StoryCard(story: widget.storyList[index]);
+              return GestureDetector(
+                onTap: () => Navigator.of(context).pushNamed(
+                  AppRouter.storyDetailsScreen,
+                  arguments: widget.storyList[index],
+                ),
+                child: StoryCard(story: widget.storyList[index]),
+              );
             },
           ),
         ),

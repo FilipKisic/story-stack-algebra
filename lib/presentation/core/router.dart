@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:story_stack/domain/entity/story.dart';
 import 'package:story_stack/presentation/home/screen/home_screen.dart';
 import 'package:story_stack/presentation/launch/screen/launch_screen.dart';
 import 'package:story_stack/presentation/stories/details/screen/story_details_screen.dart';
@@ -17,7 +18,8 @@ class AppRouter {
       case homeScreen:
         return MaterialPageRoute(builder: (_) => const HomeScreen());
       case storyDetailsScreen:
-        return MaterialPageRoute(builder: (_) => const StoryDetailsScreen());
+        final story = settings.arguments as Story;
+        return MaterialPageRoute(builder: (_) => StoryDetailsScreen(story: story));
       default:
         throw Exception('Route not found: ${settings.name}');
     }

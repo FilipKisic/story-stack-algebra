@@ -1,8 +1,12 @@
 import 'package:dio/dio.dart';
 import 'package:riverpod/riverpod.dart';
 import 'package:story_stack/data/client/item_http_client.dart';
+import 'package:story_stack/data/repository/comment_repository_impl.dart';
 import 'package:story_stack/data/repository/item_repository_impl.dart';
+import 'package:story_stack/domain/repository/comment_repository.dart';
 import 'package:story_stack/domain/repository/item_repository.dart';
+import 'package:story_stack/presentation/stories/details/controller/comment_list_controller.dart';
+import 'package:story_stack/presentation/stories/details/controller/state/comment_list_state.dart';
 import 'package:story_stack/presentation/stories/list/controller/state/story_list_state.dart';
 import 'package:story_stack/presentation/stories/list/controller/story_list_controller.dart';
 
@@ -16,6 +20,14 @@ final itemRepositoryProvider = Provider<ItemRepository>(
   (ref) => ItemRepositoryImpl(ref.watch(itemHttpClientProvider)),
 );
 
+final commentRepositoryProvider = Provider<CommentRepository>(
+    (ref) => CommentRepositoryImpl(ref.watch(itemHttpClientProvider)),
+);
+
 final storyListControllerProvider = NotifierProvider<StoryListController, StoryListState>(
   () => StoryListController(),
+);
+
+final commentListControllerProvider = NotifierProvider<CommentListController, CommentListState>(
+  () => CommentListController(),
 );

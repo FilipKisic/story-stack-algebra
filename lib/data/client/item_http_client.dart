@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:retrofit/error_logger.dart';
 import 'package:retrofit/http.dart';
+import 'package:story_stack/domain/entity/comment.dart';
 import 'package:story_stack/domain/entity/story.dart';
 
 part 'item_http_client.g.dart';
@@ -13,5 +14,8 @@ abstract class ItemHttpClient {
   Future<List<int>> getTopStories();
   
   @GET('/item/{id}.json')
-  Future<Story> getItem(@Path('id') int id);
+  Future<Story> getStory(@Path('id') int id);
+
+  @GET('/item/{id}.json')
+  Future<Comment> getComment(@Path('id') int id);
 }

@@ -16,7 +16,7 @@ class ItemRepositoryImpl implements ItemRepository {
   @override
   Future<Result<Story>> getStoryDetails(int id) async {
     try {
-      final result = await _itemHttpClient.getItem(id);
+      final result = await _itemHttpClient.getStory(id);
       return Result.ok(result);
     } catch (_) {
       return Result.error(Exception("There was an error while getting the details."));
@@ -33,7 +33,7 @@ class ItemRepositoryImpl implements ItemRepository {
       }
 
       final List<int> nextPageIds = _getNextPageStoryIdList(page);
-      final List<Story> stories = await nextPageIds.map((storyId) => _itemHttpClient.getItem(storyId)).wait;
+      final List<Story> stories = await nextPageIds.map((storyId) => _itemHttpClient.getStory(storyId)).wait;
 
       return Result.ok(stories);
     } catch (e) {

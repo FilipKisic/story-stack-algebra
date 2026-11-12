@@ -14,6 +14,7 @@ class StoryDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(

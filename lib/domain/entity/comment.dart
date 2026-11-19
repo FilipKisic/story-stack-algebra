@@ -1,26 +1,17 @@
-import 'package:json_annotation/json_annotation.dart';
-
-part 'comment.g.dart';
-
-@JsonSerializable()
 class Comment {
-  final String by;
+  final String author;
   final int id;
-  final List<int> kids;
+  List<Comment>? replies;
   final int parent;
   final String text;
   final int time;
 
   Comment(
-    this.by,
+    this.author,
     this.id,
-    this.kids,
+    this.replies,
     this.parent,
     this.text,
     this.time,
   );
-
-  factory Comment.fromJson(Map<String, dynamic> json) => _$CommentFromJson(json);
-
-  Map<String, dynamic> toJson() => _$CommentToJson(this);
 }

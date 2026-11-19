@@ -1,4 +1,5 @@
 import 'dart:math' as math;
+
 import 'package:story_stack/data/client/item_http_client.dart';
 import 'package:story_stack/domain/entity/comment.dart';
 import 'package:story_stack/domain/entity/result.dart';
@@ -13,11 +14,14 @@ class CommentRepositoryImpl implements CommentRepository {
   final int _pageSize = 10;
 
   @override
-  Future<Result<List<Comment>>> getComments(int page) async {
-    try {
-      final nextCommentsToFetch = _getNextPageIds(page);
-      final result = await nextCommentsToFetch.map((comment) => _itemHttpClient.getComment(comment)).wait;
+  Future<Result<List<Comment>>> getComments(List<int>? commentIdList, int page) async {
+    if (commentIdList == null) return Result.ok([]);
 
+    final nextCommentsToFetch = _getNextPageIds(page);
+    if (nextCommentsToFetch.isEmpty) return Result.ok([]);
+
+    try {
+      final result = await getCommentsFromList(commentIdList);
       return Result.ok(result);
     } catch (e) {
       return Result.error(Exception(e));
@@ -32,7 +36,22 @@ class CommentRepositoryImpl implements CommentRepository {
   }
 
   @override
-  void cacheTopLevelComments(List<int> kids)=> commentList.addAll(kids);
+  void cacheTopLevelComments(List<int> kids) => commentList.addAll(kids);
+
+  Future<List<Comment>> getCommentsFromList(List<int> commentIdList) async {
+    final List<Comment> commentList = [];
+    for (final commentId in commentIdList) {
+      final commentDto = await _itemHttpClient.getComment(commentId);
+
+      final comment = commentDto.toDomain();
+      if (commentDto.kids?.isNotEmpty == true) {
+        final replies = await getCommentsFromList(commentDto.kids!);
+        comment.replies = replies;
+      }
+      commentList.add(comment);
+    }
+    return commentList;
+  }
 
   List<int> _getNextPageIds(int page) {
     final int startIndex = page * _pageSize;

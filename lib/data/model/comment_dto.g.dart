@@ -7,12 +7,14 @@ part of 'comment_dto.dart';
 // **************************************************************************
 
 CommentDto _$CommentDtoFromJson(Map<String, dynamic> json) => CommentDto(
-  json['by'] as String,
+  json['by'] as String?,
   (json['id'] as num).toInt(),
   (json['kids'] as List<dynamic>?)?.map((e) => (e as num).toInt()).toList(),
   (json['parent'] as num).toInt(),
-  json['text'] as String,
+  json['text'] as String?,
   (json['time'] as num).toInt(),
+  json['deleted'] as bool?,
+  json['dead'] as bool?,
 );
 
 Map<String, dynamic> _$CommentDtoToJson(CommentDto instance) =>
@@ -23,4 +25,6 @@ Map<String, dynamic> _$CommentDtoToJson(CommentDto instance) =>
       'parent': instance.parent,
       'text': instance.text,
       'time': instance.time,
+      'deleted': instance.deleted,
+      'dead': instance.dead,
     };

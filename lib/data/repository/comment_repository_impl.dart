@@ -21,7 +21,7 @@ class CommentRepositoryImpl implements CommentRepository {
     if (nextCommentsToFetch.isEmpty) return Result.ok([]);
 
     try {
-      final result = await getCommentsFromList(commentIdList);
+      final result = await getCommentsFromList(nextCommentsToFetch);
       return Result.ok(result);
     } catch (e) {
       return Result.error(Exception(e));
@@ -43,7 +43,9 @@ class CommentRepositoryImpl implements CommentRepository {
     for (final commentId in commentIdList) {
       final commentDto = await _itemHttpClient.getComment(commentId);
 
+      if (commentDto.deleted == true || commentDto.dead == true) continue;
       final comment = commentDto.toDomain();
+
       if (commentDto.kids?.isNotEmpty == true) {
         final replies = await getCommentsFromList(commentDto.kids!);
         comment.replies = replies;

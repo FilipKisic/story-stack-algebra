@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:hugeicons/hugeicons.dart';
+import 'package:story_stack/di.dart';
 import 'package:story_stack/domain/entity/story.dart';
 import 'package:story_stack/presentation/core/style/colors.dart';
 import 'package:story_stack/presentation/core/style/text_styles.dart';
+import 'package:story_stack/presentation/stories/details/controller/state/comment_list_state.dart';
 import 'package:story_stack/presentation/stories/details/widget/primary_action_button.dart';
 import 'package:story_stack/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class StoryDetailsScreen extends StatelessWidget {
+class StoryDetailsScreen extends ConsumerWidget {
   final Story story;
 
   const StoryDetailsScreen({super.key, required this.story});
 
   @override
-  Widget build(BuildContext context) {
-
+  Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(commentListControllerProvider);
     return Scaffold(
       backgroundColor: AppColors.backgroundColor,
       body: SafeArea(
@@ -53,7 +56,7 @@ class StoryDetailsScreen extends StatelessWidget {
               ),
               const SizedBox(height: 10),
               Divider(),
-              // COMMENT LIST GOES HERE
+              CommentList(state: state),
               Spacer(),
               if (story.url != null)
                 PrimaryActionButton(
@@ -75,5 +78,29 @@ class StoryDetailsScreen extends StatelessWidget {
     } else {
       print("There was an error while opening: $url");
     }
+  }
+}
+
+class CommentList extends StatelessWidget {
+  final CommentListState state;
+
+  const CommentList({super.key, required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    return Expanded(
+      child: switch (state) {
+        LoadingState() => Center(child: CircularProgressIndicator()),
+        LoadingMoreState() => Center(child: Text('Loading more...')),
+        EmptyState() => Center(child: Text('Empty...')),
+        LoadedState(commentList: final comments) => ListView.separated(
+          itemCount: comments.length,
+          itemBuilder: (context, index) => Text(comments[index].author, style: AppTextStyles.cardTitleTextStyle),
+          separatorBuilder: (_, _) => const SizedBox(height: 10),
+        ),
+        ErrorLoadingMoreState() => Center(child: Text('Error Loading more...')),
+        ErrorState() => Center(child: Text('Error')),
+      },
+    );
   }
 }

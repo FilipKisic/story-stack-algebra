@@ -170,10 +170,13 @@ class _LoadedStateWidgetState extends ConsumerState<LoadedStateWidget> {
               }
 
               return GestureDetector(
-                onTap: () => Navigator.of(context).pushNamed(
-                  AppRouter.storyDetailsScreen,
-                  arguments: widget.storyList[index],
-                ),
+                onTap: () {
+                  ref.read(commentListControllerProvider.notifier).getFirstPageOfComments(widget.storyList[index].kids);
+                  Navigator.of(context).pushNamed(
+                    AppRouter.storyDetailsScreen,
+                    arguments: widget.storyList[index],
+                  );
+                },
                 child: StoryCard(story: widget.storyList[index]),
               );
             },
